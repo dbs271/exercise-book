@@ -1,3 +1,5 @@
+import styled from "styled-components";
+import { flexCenter } from "../../../styles/common";
 import OneTodo from "./one-todo";
 
 const TodoList = ({ todoList, setTodoList }) => {
@@ -14,15 +16,27 @@ const TodoList = ({ todoList, setTodoList }) => {
   };
   return (
     <>
-      {todoList.map((todo) => (
-        <OneTodo
-          todo={todo}
-          handleUpdateTodo={handleUpdateTodo}
-          handleDeleteTodo={handleDeleteTodo}
-        />
-      ))}
+      {todoList.length !== 0 ? (
+        todoList.map((todo) => (
+          <OneTodo
+            todo={todo}
+            handleUpdateTodo={handleUpdateTodo}
+            handleDeleteTodo={handleDeleteTodo}
+          />
+        ))
+      ) : (
+        <S.TextBox>힐 일을 추가해주세요</S.TextBox>
+      )}
     </>
   );
 };
 
 export default TodoList;
+
+const TextBox = styled.div`
+  ${flexCenter}
+`;
+
+const S = {
+  TextBox,
+};
