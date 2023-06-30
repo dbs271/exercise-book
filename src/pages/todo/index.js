@@ -3,21 +3,54 @@ import { BasicButton } from "../../components/Button/BasicButton";
 import { flexCenter } from "../../styles/common";
 import SearchBar from "./searchbar/SearchBar";
 import TodoList from "./todo-list/TodoList";
+import { useState } from "react";
+import TodoModal from "./Modal/Modal";
 
 const Todo = () => {
-  // 투두 폼, 아이콘
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [todoList, setTodoList] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const title = e.target.title.value;
+    const content = e.target.content.value;
+    const newTodo = {
+      id: Math.floor(Math.random() * 10000),
+      title,
+      content,
+      state: false,
+    };
+    setTodoList([newTodo, ...todoList]);
+    setIsModalOpen(false);
+  };
+
+  const handleModalOpen = () => {
+    setIsModalOpen(true);
+  };
+
+  const onClose = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <S.Wrapper>
       <S.Container>
+        {isModalOpen && (
+          <TodoModal
+            onClose={onClose}
+            addTodo={handleSubmit}
+            setIsModalOpen={setIsModalOpen}
+          />
+        )}
         <S.Title>My Todo List</S.Title>
         <S.SearchBox>
           <SearchBar />
         </S.SearchBox>
         <S.Content>
-          <TodoList />
+          <TodoList todoList={todoList} setTodoList={setTodoList} />
         </S.Content>
         <S.ButtonBox>
-          <BasicButton>추가</BasicButton>
+          <BasicButton onClick={handleModalOpen}>추가</BasicButton>
         </S.ButtonBox>
       </S.Container>
     </S.Wrapper>
@@ -69,8 +102,10 @@ const SearchBox = styled.div`
   ${flexCenter}
   width: 360px;
   height: 48px;
-  /* position: relative; */
-  top: 128px;
+  position: absolute;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 
 const ButtonBox = styled.div`

@@ -3,9 +3,22 @@ import { flexCenter } from "../../../styles/common";
 import { BsCheckLg } from "react-icons/bs";
 import { MdDelete } from "react-icons/md";
 import { BiSolidPencil } from "react-icons/bi";
+import { useState } from "react";
 
-const OneTodo = (props) => {
-  const { state, title, content } = props.todo;
+const OneTodo = ({ todo, handleUpdateTodo, handleDeleteTodo }) => {
+  const { state, title, content, id } = todo;
+  const [isEdit, setIsEdit] = useState(false);
+  const [editContent, setEditContent] = useState("");
+
+  const editChange = (e) => {
+    setEditContent(e.target.value);
+  };
+
+  const handleIsEditMode = () => {
+    if (!isEdit) return setIsEdit(true);
+    handleUpdateTodo(id, editContent);
+    setIsEdit(false);
+  };
   return (
     <S.Wrapper>
       <S.Header>
@@ -15,11 +28,18 @@ const OneTodo = (props) => {
         <S.Title state={state}>
           {title}{" "}
           <div>
-            <BiSolidPencil /> <MdDelete />
+            <BiSolidPencil onClick={handleIsEditMode} />{" "}
+            <MdDelete onClick={() => handleDeleteTodo(id)} />
           </div>{" "}
         </S.Title>
       </S.Header>
-      <S.Content state={state}>{content}</S.Content>
+      <S.Content state={state}>
+        {isEdit ? (
+          <textarea value={editContent} onChange={editChange}></textarea>
+        ) : (
+          content
+        )}
+      </S.Content>
     </S.Wrapper>
   );
 };
