@@ -5,10 +5,12 @@ import SearchBar from "./searchbar/SearchBar";
 import TodoList from "./todo-list/TodoList";
 import { useState } from "react";
 import TodoModal from "./Modal/Modal";
+import { useRecoilState } from "recoil";
+import todoListState from "../../recoil/todoListState";
 
 const Todo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useRecoilState(todoListState);
 
   const handleSubmit = (e) => {
     e.preventDefault();

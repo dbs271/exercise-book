@@ -3,11 +3,22 @@ import { flexCenter } from "../../../styles/common";
 import OneTodo from "./one-todo";
 
 const TodoList = ({ todoList, setTodoList }) => {
+  // const handleUpdateTodo = (id, content) => {
+  //   const _todoList = [...todoList];
+  //   const todo = _todoList.find((todo) => todo.id === id);
+  //   todo.content = content;
+  //   setTodoList(_todoList);
+  // };
+
   const handleUpdateTodo = (id, content) => {
     const _todoList = [...todoList];
-    const todo = _todoList.find((todo) => todo.id === id);
-    todo.content = content;
-    setTodoList(_todoList);
+    const todoIndex = _todoList.findIndex((todo) => todo.id === id);
+    if (todoIndex !== -1) {
+      const updatedTodo = { ..._todoList[todoIndex] };
+      updatedTodo.content = content;
+      _todoList[todoIndex] = updatedTodo;
+      setTodoList(_todoList);
+    }
   };
 
   const handleDeleteTodo = (id) => {
