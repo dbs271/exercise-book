@@ -10,15 +10,24 @@ const TodoList = ({ todoList, setTodoList }) => {
   //   setTodoList(_todoList);
   // };
 
+  // const handleUpdateTodo = (id, content) => {
+  //   const _todoList = [...todoList];
+  //   const todoIndex = _todoList.findIndex((todo) => todo.id === id);
+  //   if (todoIndex !== -1) {
+  //     const updatedTodo = { ..._todoList[todoIndex] };
+  //     updatedTodo.content = content;
+  //     _todoList[todoIndex] = updatedTodo;
+  //     setTodoList(_todoList);
+  //   }
+  // };
   const handleUpdateTodo = (id, content) => {
-    const _todoList = [...todoList];
-    const todoIndex = _todoList.findIndex((todo) => todo.id === id);
-    if (todoIndex !== -1) {
-      const updatedTodo = { ..._todoList[todoIndex] };
-      updatedTodo.content = content;
-      _todoList[todoIndex] = updatedTodo;
-      setTodoList(_todoList);
-    }
+    const updatedTodoList = todoList.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, content };
+      }
+      return todo;
+    });
+    setTodoList(updatedTodoList);
   };
 
   const handleDeleteTodo = (id) => {
